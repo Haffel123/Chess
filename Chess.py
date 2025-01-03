@@ -438,18 +438,9 @@ class Pawns(Pieces):
 
         elif selected_piece == str(blocks[current_y][current_x]):
             self.unselect_piece(False)
-            '''
-            self.remove_selected_piece()
-            self.selected_piece_color_change(False)  
-            '''          
 
         else:
             self.unselect_piece(False, True)
-            '''
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.select_piece()
-            '''
     
 
 class Knights(Pieces):
@@ -482,16 +473,10 @@ class Knights(Pieces):
             self.append_pointers(moves, True)
 
         elif selected_piece == str(blocks[current_y][current_x]):
-            self.remove_selected_piece()
-            selected_piece = ""
-            self.selected_piece_color_change(False)
-        
+            self.unselect_piece(False)
+
         else:
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.pointers = []
-            self.capture_pointers = []
-            self.select_piece()
+            self.unselect_piece(False, True)
 
 
 class Bishops(Royal):
@@ -521,16 +506,10 @@ class Bishops(Royal):
             self.append_pointers(moves)
 
         elif selected_piece == str(blocks[current_y][current_x]):
-            self.remove_selected_piece()
-            selected_piece = ""
-            self.selected_piece_color_change(False)
+            self.unselect_piece(False)
 
         else:
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.pointers = []
-            self.capture_pointers = []
-            self.select_piece()
+            self.unselect_piece(False, True)
 
      
 class Rooks(Royal):
@@ -560,16 +539,10 @@ class Rooks(Royal):
             self.append_pointers(moves)
 
         elif selected_piece == str(blocks[current_y][current_x]):
-            self.remove_selected_piece()
-            selected_piece = ""
-            self.selected_piece_color_change(False)
+            self.unselect_piece(False)
 
         else:
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.pointers = []
-            self.capture_pointers = []
-            self.select_piece()
+            self.unselect_piece(False, True)
 
 
 class Queens(Royal):
@@ -604,16 +577,10 @@ class Queens(Royal):
             self.append_pointers(moves)
 
         elif selected_piece == str(blocks[current_y][current_x]):
-            self.remove_selected_piece()
-            selected_piece = ""
-            self.selected_piece_color_change(False)
+            self.unselect_piece(False)
 
         else:
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.pointers = []
-            self.capture_pointers = []
-            self.select_piece()
+            self.unselect_piece(False, True)
 
 
 class Kings(Royal):
@@ -647,16 +614,10 @@ class Kings(Royal):
             self.append_pointers(moves)
 
         elif selected_piece == str(blocks[current_y][current_x]):
-            self.remove_selected_piece()
-            selected_piece = ""
-            self.selected_piece_color_change(False)
+            self.unselect_piece(False)
 
         else:
-            self.selected_piece_color_change(False, True)
-            self.remove_selected_piece()
-            self.pointers = []
-            self.capture_pointers = []
-            self.select_piece()
+            self.unselect_piece(False, True)
     
 
 def setup():
