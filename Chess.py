@@ -669,6 +669,4 @@ blocks = draw_board()
 images = load_images()
 all_pieces = setup()
 
-print("wassup g")
-
 board.mainloop()
