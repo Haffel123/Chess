@@ -62,7 +62,7 @@ def draw_board():
     return blocks
 
 def load_images():
-    current_directory = os.path.dirname(os.path.abspath(__file__)).replace("\\", "\\\\")
+    current_directory = os.path.dirname(os.path.abspath(__file__))
     images_path = os.path.join(current_directory, "Chess Images")
     
     pieces = ["white pawn", "white rook", "white bishop", "white knight", "white queen", "white king", 
