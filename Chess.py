@@ -62,13 +62,14 @@ def draw_board():
     return blocks
 
 def load_images():
-    image_path = "D:\\Hassan\\Python Projects\\Other Projects\\Games\\Chess\\Chess Images"
+    current_directory = os.path.dirname(os.path.abspath(__file__)).replace("\\", "\\\\")
+    images_path = os.path.join(current_directory, "Chess Images")
     
     pieces = ["white pawn", "white rook", "white bishop", "white knight", "white queen", "white king", 
             "black pawn", "black rook", "black bishop", "black knight", "black queen", "black king", "pointer"]
     
     def load_image(piece_name):
-        return ImageTk.PhotoImage(Image.open(os.path.join(image_path, f"{piece_name}.png")))
+        return ImageTk.PhotoImage(Image.open(os.path.join(images_path, f"{piece_name}.png")))
     
     return {piece: load_image(piece) for piece in pieces}
 
