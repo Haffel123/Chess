@@ -595,7 +595,8 @@ class Kings(Royal):
 
         def get_check_block(self, x, y, color):
             capture_piece = self.get_piece_at_location(x, y, all_pieces)
-            capture_piece_color = self.get_piece_color(capture_piece)
+            if capture_piece is not None:
+                capture_piece_color = self.get_piece_color(capture_piece)
 
             if capture_piece_color:
                 if color == capture_piece_color:
@@ -617,6 +618,11 @@ class Kings(Royal):
                         self.check_blocks.append(check_block)
                         self.checked = True
                     break
+
+                else:
+                    try_x += dx
+                    try_y += dy
+
 
         check_around(0, -1, current_x, current_y, moves) # Top
         check_around(0, 1, current_x, current_y, moves) # Bottom
@@ -706,7 +712,13 @@ blocks = draw_board()
 images = load_images()
 all_pieces = setup()
 
-all_pieces["white_king"].check_if_checked()
-print(all_pieces["white_king"].check_blocks)
+def temp():
+    all_pieces["white_king"].check_if_checked()
+    print(all_pieces["white_king"].check_blocks)
+    all_pieces["white_king"].check_blocks = []
+
+temp_button = Button(board, command=temp)
+temp_button.pack()
+
 
 board.mainloop()
