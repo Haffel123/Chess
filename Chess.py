@@ -714,7 +714,7 @@ all_pieces = setup()
 
 def temp():
     all_pieces["white_king"].check_if_checked()
-    print(all_pieces["white_king"].check_blocks)
+    print(all_pieces["white_king"].check_blocks())
     all_pieces["white_king"].check_blocks = []
 
 temp_button = Button(board, command=temp)
