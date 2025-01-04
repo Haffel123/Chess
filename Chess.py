@@ -123,10 +123,7 @@ class Pieces:
                     self.button.config(activebackground=self.abg)
         else:
             current_y, current_x = self.get_coordinates(selected_piece)
-            if self.flipped:
-                piece = self.get_piece_at_location(7 - current_x, 7 - current_y, all_pieces)
-            else:
-                piece = self.get_piece_at_location(current_x, current_y, all_pieces)
+            piece = self.get_piece_at_location(current_x, current_y, all_pieces)
             
             piece.selected_piece_color_change(False)
 
@@ -215,12 +212,8 @@ class Pieces:
         self.flip_board()
 
     def get_capture_block(self, x, y, color):
-        if self.flipped:
-            capture_piece = self.get_piece_at_location(7 - x, 7 - y, all_pieces)
-            capture_piece_color = self.get_piece_color(capture_piece)
-        else:
-            capture_piece = self.get_piece_at_location(x, y, all_pieces)
-            capture_piece_color = self.get_piece_color(capture_piece)
+        capture_piece = self.get_piece_at_location(x, y, all_pieces)
+        capture_piece_color = self.get_piece_color(capture_piece)
 
         if capture_piece_color:
             if color == capture_piece_color:
@@ -232,10 +225,7 @@ class Pieces:
                 original_bg = capture_piece["bg"]
                 original_abg = capture_piece["activebackground"]
                 
-                if self.flipped:
-                    current_capture_piece = self.get_piece_at_location(7 - x , 7 - y, all_pieces)
-                else: 
-                    current_capture_piece = self.get_piece_at_location(x, y, all_pieces)
+                current_capture_piece = self.get_piece_at_location(x, y, all_pieces)
                 capture_piece.config(command=lambda: current_capture_piece.delete_piece(self))
 
                 capture_piece["bg"] = "red"     
@@ -245,6 +235,10 @@ class Pieces:
                 return (capture_block, original_bg, original_abg)
     
     def get_piece_at_location(self, x, y, all_pieces):
+        if self.flipped:
+            x = 7 - x
+            y = 7 - y
+
         for piece_type, Pieces in all_pieces.items():
             if isinstance(Pieces, list):
                 for piece in Pieces:
@@ -590,7 +584,49 @@ class Kings(Royal):
             self.button.config(command=self.select_piece)
         self.pointers = []
         self.capture_pointers = []
-    
+        self.check_blocks = []
+        self.checked = False
+
+    def check_if_checked(self):
+        moves = []
+        current_x = self.opp_x if self.flipped else self.x
+        current_y = self.opp_y if self.flipped else self.y
+
+        def get_check_block(self, x, y, color):
+            capture_piece = self.get_piece_at_location(x, y, all_pieces)
+            capture_piece_color = self.get_piece_color(capture_piece)
+
+            if capture_piece_color:
+                if color == capture_piece_color:
+                    return None
+                else:
+                    check_block = blocks[y][x]
+                    return (check_block)
+
+        def check_around(dx, dy, try_x, try_y, moves):
+            try_x += dx
+            try_y += dy
+
+            while (0 <= try_x < 8) and (0 <= try_y < 8):
+                current_block = blocks[try_y][try_x]
+                
+                if current_block.children:
+                    check_block = get_check_block(self, try_x, try_y, self.color)
+                    if check_block is not None:
+                        self.check_blocks.append(check_block)
+                        self.checked = True
+                    break
+
+        check_around(0, -1, current_x, current_y, moves) # Top
+        check_around(0, 1, current_x, current_y, moves) # Bottom
+        check_around(1, 0, current_x, current_y, moves) # Right
+        check_around(-1, 0, current_x, current_y, moves) # Left
+
+        check_around(-1, -1, current_x, current_y, moves) # Top left
+        check_around(1, -1, current_x, current_y, moves) # Top right
+        check_around(-1, 1, current_x, current_y, moves) # Bottom left
+        check_around(1, 1, current_x, current_y, moves) # Bottom right
+
     def select_piece(self):
         global selected_piece, current_pointers, current_capture_pointers
 
@@ -668,5 +704,8 @@ def setup():
 blocks = draw_board()
 images = load_images()
 all_pieces = setup()
+
+all_pieces["white_king"].check_if_checked()
+print(all_pieces["white_king"].check_blocks)
 
 board.mainloop()
