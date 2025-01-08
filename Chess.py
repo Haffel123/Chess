@@ -366,7 +366,7 @@ class Royal(Pieces):
     def try_moves(self, dx, dy, try_x, try_y, moves, king=False):
         try_x += dx
         try_y += dy
-
+        
         while (0 <= try_x < 8) and (0 <= try_y < 8):
             current_block = blocks[try_y][try_x]
 
