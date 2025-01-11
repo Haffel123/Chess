@@ -12,8 +12,15 @@ playing_clr = "w"
 
 board = Tk()
 board.title("Chess")
-board.geometry("640x640")
 board.resizable(False, False)
+
+window_width = 640
+window_height = 640
+screen_width = board.winfo_screenwidth()
+screen_height = board.winfo_screenheight()
+x_position = (screen_width // 2) - (window_width // 2)
+y_position = (screen_height // 2) - (window_height // 2)
+board.geometry(f"{window_width}x{window_height}+{x_position}+{y_position-40}")
 
 def draw_board():
     place_x = 0
