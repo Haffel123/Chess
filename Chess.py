@@ -376,7 +376,7 @@ class Royal(Pieces):
 
         while (0 <= try_x < 8) and (0 <= try_y < 8):
             current_block = blocks[try_y][try_x]
-
+            
             if not current_block.children:
                 moves.append((try_x, try_y))
                 if not king:
