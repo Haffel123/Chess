@@ -23,49 +23,32 @@ y_position = (screen_height // 2) - (window_height // 2)
 board.geometry(f"{window_width}x{window_height}+{x_position}+{y_position-40}")
 
 def draw_board():
-    place_x = 0
-    place_y = 0
-    y_index = 0
     blocks = []
     current_row = []
 
-    for i in range(64):
-        white_block = Frame(board,
-                            bg="#dbc7a0",
-                            height=80,
-                            width=80)
-
-        black_block = Frame(board,
-                            bg="#8c5331",
-                            height=80,
-                            width=80)
-
-        if place_x == 560:
-            if y_index != 7:
-                place_x = 0
-                place_y += 80
-                y_index += 1
-                blocks.append(current_row)
-                current_row = []
-        elif i != 0:
-            place_x += 80
-
-        if y_index % 2 == 0:
-            if i % 2 == 0:
-                white_block.place(x=place_x, y=place_y)
-                current_row.append(white_block)
+    for y in range(8):
+        current_row = []
+        
+        for x in range(8):
+            white_block = Frame(board, bg="#dbc7a0", height=80, width=80)
+            black_block = Frame(board, bg="#8c5331", height=80, width=80)
+            
+            if y % 2 == 0:
+                if x % 2 == 0:
+                    white_block.place(x=x * 80, y=y * 80)
+                    current_row.append(white_block)
+                else:
+                    black_block.place(x=x * 80, y=y * 80)
+                    current_row.append(black_block)
             else:
-                black_block.place(x=place_x, y=place_y)
-                current_row.append(black_block)
-        else:
-            if i % 2 != 0:
-                white_block.place(x=place_x, y=place_y)
-                current_row.append(white_block)
-            else:
-                black_block.place(x=place_x, y=place_y)
-                current_row.append(black_block)
-    blocks.append(current_row)
-
+                if x % 2 == 0:
+                    black_block.place(x=x * 80, y=y * 80)
+                    current_row.append(black_block)
+                else:
+                    white_block.place(x=x * 80, y=y * 80)
+                    current_row.append(white_block)
+        
+        blocks.append(current_row)
     return blocks
 
 def load_images():
@@ -376,7 +359,7 @@ class Royal(Pieces):
 
         while (0 <= try_x < 8) and (0 <= try_y < 8):
             current_block = blocks[try_y][try_x]
-            
+
             if not current_block.children:
                 moves.append((try_x, try_y))
                 if not king:
